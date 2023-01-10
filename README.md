@@ -6,7 +6,7 @@ PyQt background app example with system tray icon
 2. python main.py
 
 ## Detailed Description
-Window has nothing. blank empty screen. That's not the point.
+Window has nothing. blank empty screen. That's not the point. You can just make random widgets over it to your heart's content.
 
 The point is app does not stop if you measly close the window.
 
