@@ -13,6 +13,7 @@ class MainWindow(QMainWindow):
         menu = QMenu()
 
         action = QAction("Quit", self)
+        action.setIcon(QIcon('close.svg'))
 
         action.triggered.connect(app.quit)
 
