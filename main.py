@@ -1,10 +1,13 @@
 import sys
+import threading
+import time
+import asyncio
 
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QApplication, QSystemTrayIcon, QMenu, QAction, QMainWindow
+from PyQt5.QtWidgets import QApplication, QSystemTrayIcon, QMenu, QAction, QPushButton, QWidget, QVBoxLayout
 
 
-class MainWindow(QMainWindow):
+class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.__initUi()
@@ -29,6 +32,34 @@ class MainWindow(QMainWindow):
 
         # Show the tray icon
         tray_icon.show()
+
+        threadBtn = QPushButton('Execute Thread')
+        threadBtn.clicked.connect(self.__executeThread)
+
+        asyncBtn = QPushButton('Execute async-await')
+        asyncBtn.clicked.connect(self.__executeAsyncAwait)
+
+        lay = QVBoxLayout()
+        lay.addWidget(threadBtn)
+        lay.addWidget(asyncBtn)
+
+        self.setLayout(lay)
+
+    def __executeThread(self):
+        t = threading.Thread(target=self.__waitThread)
+        t.daemon = True
+        t.start()
+
+    def __executeAsyncAwait(self):
+        asyncio.run(self.__waitAsyncAwait())
+
+    def __waitThread(self):
+        time.sleep(5)
+        print("Finished thread")
+
+    async def __waitAsyncAwait(self):
+        await asyncio.sleep(5)
+        print("Finished async-await")
 
     def __activated(self, reason):
         if reason == 3:
